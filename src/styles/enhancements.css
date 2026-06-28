@@ -1,0 +1,499 @@
+/* ==========================================================================
+   ENHANCEMENTS — extra "sweet" premium touches layered over global.css
+   (opening reveal, stars, name shimmer, button shine, floating RSVP, etc.)
+   Loaded AFTER global.css so a few rules intentionally refine earlier ones.
+   ========================================================================== */
+
+/* ---------- Keyframes ---------- */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.7); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+@keyframes nameSheen {
+  0% { background-position: 130% 0; }
+  60%, 100% { background-position: -30% 0; }
+}
+@keyframes fabPulse {
+  0%, 100% { box-shadow: 0 14px 30px -12px rgba(183, 110, 121, 0.7), 0 0 0 0 var(--rosegold-30); }
+  50% { box-shadow: 0 16px 34px -12px rgba(183, 110, 121, 0.8), 0 0 0 12px rgba(183, 110, 121, 0); }
+}
+@keyframes softPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.035); }
+}
+@keyframes introGlow {
+  0%, 100% { filter: drop-shadow(0 0 8px var(--gold-20)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 20px var(--gold-40)); transform: scale(1.06); }
+}
+
+/* ---------- Twinkling stars (ambient layer) ---------- */
+.ambient__stars {
+  position: absolute;
+  inset: 0;
+}
+.star {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  color: var(--color-gold);
+  opacity: 0.5;
+  animation: twinkle 4.5s ease-in-out infinite;
+}
+
+/* ---------- Gold shimmer sweep on key names ---------- */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .couple__name,
+  .venue__name,
+  .footer__families {
+    background-image: linear-gradient(
+      105deg,
+      currentColor 0 42%,
+      var(--color-gold) 50%,
+      currentColor 58% 100%
+    );
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: nameSheen 9s ease-in-out 1.5s infinite;
+  }
+}
+
+/* ---------- Button shine sweep on hover ---------- */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -130%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.45),
+    transparent
+  );
+  transform: skewX(-18deg);
+  transition: left 0.7s var(--ease-soft);
+  pointer-events: none;
+}
+.btn:hover::after {
+  left: 150%;
+}
+
+/* ---------- Soft glow sweep inside cards on hover ---------- */
+.detail-card,
+.couple__person,
+.venue__card,
+.panel {
+  position: relative;
+  overflow: hidden;
+}
+.detail-card::after,
+.couple__person::after,
+.venue__card::after,
+.panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 80% at 30% -10%, var(--rosegold-10), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-soft);
+  pointer-events: none;
+}
+.detail-card:hover::after,
+.couple__person:hover::after,
+.venue__card:hover::after,
+.panel:hover::after {
+  opacity: 1;
+}
+
+/* ---------- Ornamental divider draw-in on reveal ---------- */
+.section-title .divider__line {
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 1s var(--ease-soft) 0.25s;
+}
+.section-title.is-visible .divider__line {
+  transform: scaleX(1);
+}
+.section-title .divider__ornament {
+  opacity: 0;
+  transform: rotate(-35deg) scale(0.6);
+  transition:
+    opacity 0.7s var(--ease-soft) 0.35s,
+    transform 0.7s var(--ease-soft) 0.35s;
+}
+.section-title.is-visible .divider__ornament {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================ OPENING REVEAL ============================ */
+body.is-locked {
+  overflow: hidden;
+}
+
+/* The page content stays hidden behind the opaque cover, then cross-fades in
+   as the envelope fades away — so the invitation text never shows through
+   while the cover is opening, and arrives fresh once it's gone. */
+.reveal-stage {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.9s var(--ease-soft),
+    transform 0.9s var(--ease-soft);
+}
+.reveal-stage.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  /* The whole cover fades out (after the envelope has opened) to reveal page. */
+  opacity: 1;
+  transition: opacity 0.7s ease 1.55s;
+}
+.intro.is-opening {
+  opacity: 0;
+  pointer-events: none;
+}
+/* Opaque backdrop so nothing behind the cover is ever visible until it fades. */
+.intro__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(140% 120% at 50% 22%, var(--color-blush) 0%, var(--color-cream) 58%, var(--color-offwhite) 100%);
+}
+
+.intro__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: var(--gutter);
+  max-width: 520px;
+  /* Entrance starts hidden; .is-ready (set one frame after mount) eases it in. */
+  opacity: 0;
+  transform: translateY(18px) scale(0.96);
+  transition:
+    opacity 0.9s var(--ease-soft),
+    transform 0.9s var(--ease-soft);
+}
+.intro.is-ready .intro__content {
+  opacity: 1;
+  transform: none;
+}
+.intro__crescent {
+  width: clamp(40px, 12vw, 56px);
+  margin: 0 auto clamp(0.6rem, 2.5vw, 0.9rem);
+  color: var(--color-rosegold);
+  animation: introGlow 5s ease-in-out infinite;
+  transition: opacity 0.4s ease;
+}
+.intro__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-rosegold);
+  transition: opacity 0.4s ease;
+}
+.intro__hint {
+  margin-top: 0.4rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(0.95rem, 3vw, 1.1rem);
+  color: var(--color-text-muted);
+  transition: opacity 0.4s ease;
+}
+.intro__btn {
+  margin-top: clamp(1.3rem, 5vw, 1.8rem);
+  animation: softPulse 2.6s ease-in-out infinite;
+  transition: opacity 0.4s ease;
+}
+/* While opening, fade the framing chrome so attention stays on the envelope. */
+.intro.is-opening .intro__crescent,
+.intro.is-opening .intro__eyebrow,
+.intro.is-opening .intro__hint,
+.intro.is-opening .intro__btn {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- The envelope ---------- */
+.envelope {
+  position: relative;
+  width: clamp(258px, 78vw, 330px);
+  aspect-ratio: 8 / 5;
+  margin: clamp(1.1rem, 5vw, 1.7rem) auto 0;
+  perspective: 1400px;
+  background: linear-gradient(160deg, var(--color-offwhite), var(--color-cream));
+  border: 1px solid var(--gold-40);
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
+}
+/* The letter: hidden in the pocket, then lifts up + fades in on open. */
+.envelope__letter {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  bottom: 7%;
+  z-index: 2;
+  padding: clamp(0.85rem, 4vw, 1.25rem) 0.7rem;
+  text-align: center;
+  background: linear-gradient(180deg, #fffefb 0%, var(--color-blush) 100%);
+  border: 1px solid var(--rosegold-18);
+  border-radius: 8px;
+  box-shadow: 0 12px 26px -16px rgba(74, 47, 53, 0.55);
+  opacity: 0;
+  transform: translateY(10%) scale(0.95);
+  transition:
+    transform 0.95s var(--ease-soft) 0.55s,
+    opacity 0.6s ease 0.55s;
+}
+.intro.is-opening .envelope__letter {
+  opacity: 1;
+  transform: translateY(-82%) scale(1);
+}
+.envelope__letter-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--color-rosegold);
+}
+.envelope__names {
+  margin-top: 0.35rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 7vw, 2.1rem);
+  line-height: 1.12;
+  color: var(--color-text-deep);
+}
+.envelope__names span {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--color-gold);
+}
+.envelope__flourish {
+  width: clamp(96px, 36vw, 140px);
+  margin: 0.5rem auto;
+  color: var(--color-gold);
+}
+.envelope__date {
+  font-family: var(--font-serif);
+  font-size: clamp(0.8rem, 2.8vw, 0.95rem);
+  color: var(--color-text-muted);
+}
+/* Pocket front — hides the lower part of the letter (sits above it). */
+.envelope__front {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: 12px;
+  background: linear-gradient(160deg, var(--color-cream) 0%, #ecd4ad 100%);
+  clip-path: polygon(0 30%, 50% 66%, 100% 30%, 100% 100%, 0 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+/* Triangular lid that lifts open. */
+.envelope__flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 66%;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform 0.75s var(--ease-soft);
+  background: linear-gradient(160deg, var(--color-blush) 0%, var(--color-babypink) 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  backface-visibility: hidden;
+  box-shadow: 0 4px 10px -6px rgba(74, 47, 53, 0.4);
+}
+.intro.is-opening .envelope__flap {
+  transform: rotateX(-185deg);
+  z-index: 1; /* drop behind the rising letter */
+}
+.envelope__seal {
+  width: clamp(32px, 10vw, 44px);
+  height: clamp(32px, 10vw, 44px);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--color-offwhite);
+  background: radial-gradient(circle at 35% 30%, var(--color-rosegold-soft), var(--color-rosegold));
+  box-shadow: 0 4px 10px -4px rgba(74, 47, 53, 0.6);
+  transform: translateY(-15%);
+  backface-visibility: hidden;
+}
+.envelope__seal-icon {
+  width: 58%;
+}
+
+/* ============================ COUPLE REVEAL ============================ */
+/* Groom glides in from the left, bride from the right, meeting at the crescent
+   in the middle — a graceful "two becoming one" entrance. (.reveal prefix wins
+   the specificity battle over the generic .reveal transform in global.css.) */
+.reveal.couple__person--groom {
+  transform: translateX(-48px) translateY(16px) scale(0.96);
+}
+.reveal.couple__person--bride {
+  transform: translateX(48px) translateY(16px) scale(0.96);
+}
+.reveal.couple__person--groom.is-visible,
+.reveal.couple__person--bride.is-visible {
+  transform: none;
+}
+
+/* The central crescent springs in, then keeps its gentle twinkle. */
+.reveal.couple__amp {
+  transform: scale(0.3) rotate(-35deg);
+}
+.reveal.couple__amp.is-visible {
+  transform: scale(1) rotate(0deg);
+}
+
+/* Monogram medallions pop in (scale + rotate) just after their card lands, and
+   keep a soft pulsing halo so the couple feels alive. */
+@keyframes monoHalo {
+  0%, 100% { box-shadow: 0 0 0 0 var(--rosegold-18); }
+  50% { box-shadow: 0 0 0 10px rgba(183, 110, 121, 0); }
+}
+.couple__monogram {
+  opacity: 0;
+  transform: scale(0.4) rotate(-25deg);
+  transition:
+    opacity 0.7s var(--ease-soft) 0.25s,
+    transform 0.8s var(--ease-soft) 0.25s;
+}
+.is-visible .couple__monogram {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  animation: monoHalo 4.5s ease-in-out 1s infinite;
+}
+
+/* The blessings block drifts up gently when it enters view. */
+.reveal.blessings {
+  transform: translateY(30px) scale(0.98);
+}
+.reveal.blessings.is-visible {
+  transform: none;
+}
+
+/* ============================ SCHEDULE TIMELINE ============================ */
+/* Each node pops in as its moment scrolls into view; the spine gently flows. */
+@keyframes popDot {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.25); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.timeline__item.is-visible .timeline__dot {
+  animation: popDot 0.55s var(--ease-soft) both;
+}
+@keyframes lineFlow {
+  0% { background-position: 0 -120%; }
+  100% { background-position: 0 120%; }
+}
+.timeline::before {
+  background-size: 100% 220%;
+  animation: lineFlow 7s linear infinite;
+}
+
+/* ============================ FLOATING RSVP BUTTON ============================ */
+.fab {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 999px;
+  color: var(--color-offwhite);
+  background: linear-gradient(135deg, var(--color-rosegold) 0%, #a85d68 100%);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 14px 30px -12px rgba(183, 110, 121, 0.7);
+  animation: fabPulse 2.8s ease-in-out infinite;
+  transition:
+    opacity 0.45s var(--ease-soft),
+    transform 0.45s var(--ease-soft);
+}
+.fab:hover {
+  transform: translateY(-3px);
+}
+.fab__icon {
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+.fab--hidden {
+  opacity: 0;
+  transform: translateY(24px) scale(0.85);
+  pointer-events: none;
+}
+
+/* ============================ REDUCED MOTION ============================ */
+@media (prefers-reduced-motion: reduce) {
+  .couple__name,
+  .venue__name,
+  .footer__families {
+    -webkit-text-fill-color: currentColor;
+    background: none;
+    animation: none;
+  }
+  .btn::after {
+    display: none;
+  }
+  .fab {
+    animation: none;
+  }
+  .star {
+    animation: none;
+    opacity: 0.7;
+  }
+  .section-title .divider__line {
+    transform: none;
+  }
+  .section-title .divider__ornament {
+    opacity: 1;
+    transform: none;
+  }
+  .intro__crescent,
+  .intro__btn {
+    animation: none;
+  }
+  /* Couple entrance: show instantly, no slide/pop/halo. */
+  .reveal.couple__person--groom,
+  .reveal.couple__person--bride,
+  .reveal.couple__amp,
+  .reveal.blessings {
+    transform: none;
+  }
+  .couple__monogram {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .is-visible .couple__monogram {
+    animation: none;
+  }
+}
