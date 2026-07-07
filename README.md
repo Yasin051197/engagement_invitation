@@ -17,17 +17,17 @@ src/data/invitationData.ts
 Open it and edit the values. Nothing about the event is hard-coded anywhere
 else. Quick map:
 
-| What you want to change            | Field(s) in `invitationData.ts`                          |
-| ---------------------------------- | -------------------------------------------------------- |
-| Couple names                       | `groomName`, `brideName`                                 |
-| Parents / families                 | `groomParents`, `brideParents`, `hostedBy`               |
-| Date & time (text shown)           | `date`, `time`                                           |
-| Date & time (for Add-to-Calendar)  | `isoStart`, `isoEnd`                                     |
-| Venue & map link                   | `venueName`, `address`, `mapLink`                        |
-| RSVP contact                       | `rsvpName`, `rsvpPhone`, `whatsappMessage`               |
-| Messages, quotes, greeting         | `greeting`, `invitationMessage`, `heroQuote`, `footerQuote` |
-| Extra poetic lines (pick & swap)   | `duas[]`, `shayariLines[]`, `quotes[]`, `invitationLines[]`, `footerLines[]` |
-| Programme timeline                 | `schedule[]`                                             |
+| What you want to change           | Field(s) in `invitationData.ts`                                              |
+| --------------------------------- | ---------------------------------------------------------------------------- |
+| Couple names                      | `groomName`, `brideName`                                                     |
+| Parents / families                | `groomParents`, `brideParents`, `hostedBy`                                   |
+| Date & time (text shown)          | `date`, `time`                                                               |
+| Date & time (for Add-to-Calendar) | `isoStart`, `isoEnd`                                                         |
+| Venue & map link                  | `venueName`, `address`, `mapLink`                                            |
+| RSVP contact                      | `rsvpName`, `rsvpPhone`, `whatsappMessage`                                   |
+| Messages, quotes, greeting        | `greeting`, `invitationMessage`, `heroQuote`, `footerQuote`                  |
+| Extra poetic lines (pick & swap)  | `duas[]`, `shayariLines[]`, `quotes[]`, `invitationLines[]`, `footerLines[]` |
+| Programme timeline                | `schedule[]`                                                                 |
 
 > The page shows only **2–4** poetic lines at a time. The remaining lines in
 > the arrays are there so you can swap in whichever you prefer — just change
@@ -58,10 +58,12 @@ Requires Node 18+.
 This is a standard static Vite app.
 
 **Vercel** — import the repo, framework preset **Vite**, it auto-detects:
+
 - Build command: `npm run build`
 - Output directory: `dist`
 
 **Netlify** — New site from Git:
+
 - Build command: `npm run build`
 - Publish directory: `dist`
 

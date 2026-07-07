@@ -33,24 +33,24 @@ export function CoupleSection({ data }: CoupleSectionProps) {
         />
 
         <div className="couple">
-          <Reveal className="couple__person couple__person--groom" delay={1}>
+          <Reveal className="couple__person couple__person--bride" delay={1}>
             <div className="couple__monogram" aria-hidden="true">
-              {initialOf(data.groomName)}
+              {initialOf(data.brideName)}
             </div>
-            <p className="couple__name">{data.groomName}</p>
-            <p className="couple__role">Groom</p>
+            <p className="couple__name">{data.brideTitle} {data.brideName}</p>
+            <p className="couple__role">Bride</p>
           </Reveal>
 
           <Reveal className="couple__amp" delay={2}>
             <AmpCrescent />
           </Reveal>
 
-          <Reveal className="couple__person couple__person--bride" delay={3}>
+          <Reveal className="couple__person couple__person--groom" delay={3}>
             <div className="couple__monogram" aria-hidden="true">
-              {initialOf(data.brideName)}
+              {initialOf(data.groomName)}
             </div>
-            <p className="couple__name">{data.brideName}</p>
-            <p className="couple__role">Bride</p>
+            <p className="couple__name">{data.groomTitle} {data.groomName}</p>
+            <p className="couple__role">Groom</p>
           </Reveal>
         </div>
 
@@ -58,12 +58,12 @@ export function CoupleSection({ data }: CoupleSectionProps) {
           <p className="blessings__kicker">With Blessings From</p>
           <div className="blessings__grid">
             <div className="blessings__col">
-              <p className="blessings__family">{firstName(data.groomName)}’s Family</p>
-              <p className="blessings__names">{data.groomParents}</p>
-            </div>
-            <div className="blessings__col">
               <p className="blessings__family">{firstName(data.brideName)}’s Family</p>
               <p className="blessings__names">{data.brideParents}</p>
+            </div>
+            <div className="blessings__col">
+              <p className="blessings__family">{firstName(data.groomName)}’s Family</p>
+              <p className="blessings__names">{data.groomParents}</p>
             </div>
           </div>
         </Reveal>

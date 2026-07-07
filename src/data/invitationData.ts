@@ -9,7 +9,8 @@
  *      is hard-coded anywhere else in the project.
  *
  *  Quick edit guide:
- *    • Names / families ....... groomName, brideName, groomParents, brideParents, hostedBy
+ *    • Names / families ....... groomName, brideName, groomTitle, brideTitle,
+ *                               groomParents, brideParents, hostedBy
  *    • Date / time ............ date, time  (also isoStart / isoEnd for "Add to Calendar")
  *    • Venue / map ............ venueName, address, mapLink
  *    • RSVP ................... rsvpName, rsvpPhone, whatsappMessage
@@ -29,6 +30,18 @@ export interface InvitationData {
   eventSubtitle: string;
   groomName: string;
   brideName: string;
+  groomFirstName: string;
+  brideFirstName: string;
+  /** Courtesy title shown before the groom's full name (e.g. "Mr."). */
+  groomTitle: string;
+  /** Courtesy title shown before the bride's full name (e.g. "Mrs."). */
+  brideTitle: string;
+  /**
+   * Optional couple portrait / illustration shown in "The Blessed Couple" section.
+   * Drop an image file into /public (e.g. public/couple.png) and set the path here
+   * as "/couple.png". Leave empty ("") to show a tasteful placeholder instead.
+   */
+  coupleImage: string;
   /** Parents of the groom — shown in the elegant "With Blessings From" block. */
   groomParents: string;
   /** Parents of the bride — shown in the elegant "With Blessings From" block. */
@@ -70,8 +83,15 @@ export const invitationData: InvitationData = {
 
   groomName: "Yasim Jamadar",
   brideName: "Fiza Shaikh",
-  groomParents: "Late Babasaheb Jamadar & Shabana Jamadar",
-  brideParents: "Zafar Shaikh & NoorJahan Shaikh",
+  groomFirstName: "Yasim",
+  brideFirstName: "Fiza",
+  // Bride-side card: the bride is presented first, each name prefixed with a title.
+  groomTitle: "Mr.",
+  brideTitle: "Ms.",
+  // Couple illustration (already includes the arch, florals and initials monogram).
+  coupleImage: "/couple.png",
+  groomParents: "Late Mr. Babasaheb Jamadar & Mrs. Shabana Jamadar",
+  brideParents: "Mr. Zafar Shaikh & Mrs. NoorJahan Shaikh",
   // The bride's family are the hosts; the groom's side attends as honoured guests.
   hostedBy: "The Shaikh Family",
 
@@ -93,9 +113,9 @@ export const invitationData: InvitationData = {
   isoStart: "2026-07-24T19:00:00+05:30",
   isoEnd: "2026-07-24T22:30:00+05:30",
 
-  venueName: "Rosewood Banquet Hall",
-  address: "Bhisri, Pune, Maharashtra",
-  mapLink: "https://www.google.com/maps/search/?api=1&query=Bhisri%2C%20Pune%2C%20Maharashtra",
+  venueName: "Pearl Banquet",
+  address: "Spine Rd, Sector Number 4, Moshi, Pimpri-Chinchwad, Maharashtra 412105",
+  mapLink: "https://maps.app.goo.gl/zdtiTsPDaoTN6EmV8",
 
   dressCode: "Pastel / Traditional",
   dinnerText: "Dinner will be served after the ceremony.",
@@ -103,7 +123,7 @@ export const invitationData: InvitationData = {
 
   // Bride-side invitation: single point of contact is Zafar Shaikh.
   rsvpName: "Zafar Shaikh",
-  rsvpPhone: "+91 98503 40511",
+  rsvpPhone: "+91 9921090110",
   whatsappMessage: "Assalamu Alaikum, I will be attending the Engagement Ceremony. In Sha Allah.",
 
   privacyNote: "Entry by invitation only.",

@@ -2,8 +2,6 @@ import type { InvitationData } from '../data/invitationData'
 import { SectionTitle } from './SectionTitle'
 import { DetailCard } from './DetailCard'
 import {
-  CalendarIcon,
-  ClockIcon,
   DressIcon,
   DinnerIcon,
   InfoIcon,
@@ -21,8 +19,6 @@ interface EventDetailsProps {
  */
 export function EventDetails({ data }: EventDetailsProps) {
   const cards = [
-    { icon: <CalendarIcon />, label: 'Date', value: data.date },
-    { icon: <ClockIcon />, label: 'Time', value: data.time },
     { icon: <DressIcon />, label: 'Dress Code', value: data.dressCode },
     { icon: <DinnerIcon />, label: 'Dinner', value: data.dinnerText },
     { icon: <InfoIcon />, label: 'Please Note', value: data.specialInstruction },

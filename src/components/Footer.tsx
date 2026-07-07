@@ -1,7 +1,7 @@
 import type { InvitationData } from '../data/invitationData'
 import { Reveal } from './Reveal'
 import { OrnamentalDivider } from './SectionTitle'
-import { FloralFlourish, CrescentIcon } from './decorations/Icons'
+import { FloralFlourish, RingsIcon } from './decorations/Icons'
 
 interface FooterProps {
   data: InvitationData
@@ -14,7 +14,7 @@ export function Footer({ data }: FooterProps) {
       <div className="container">
         <Reveal>
           <span className="badge">
-            <CrescentIcon style={{ width: 16, height: 16 }} />
+            <RingsIcon style={{ width: 16, height: 16 }} />
             Duas Requested
           </span>
 

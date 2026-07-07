@@ -35,6 +35,11 @@
   --radius-md: 18px;
   --radius-sm: 12px;
 
+  /* ---- Card padding & grid rhythm — one standard shared by every card ---- */
+  --card-pad: clamp(1.6rem, 5vw, 2.4rem); /* inside main content cards */
+  --card-pad-compact: clamp(1.2rem, 4vw, 1.6rem); /* small cards in a grid */
+  --card-gap: clamp(1.2rem, 4vw, 1.6rem); /* gap between grid items */
+
   /* ---- Elevation ---- */
   --shadow-soft: 0 18px 40px -24px rgba(74, 47, 53, 0.35);
   --shadow-card: 0 10px 30px -18px rgba(74, 47, 53, 0.3);

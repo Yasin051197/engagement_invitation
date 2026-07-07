@@ -18,10 +18,11 @@
   <rect x="36" y="36" width="1128" height="558" rx="26" fill="none" stroke="#B76E79" stroke-opacity="0.35" stroke-width="2"/>
   <rect x="50" y="50" width="1100" height="530" rx="20" fill="none" stroke="#D8A75B" stroke-opacity="0.45" stroke-width="1.5"/>
 
-  <!-- crescent + star -->
+  <!-- interlocking rings -->
   <g transform="translate(600,120)">
-    <path d="M26 -34a40 40 0 1 0 18 55 30 30 0 0 1-18-55Z" fill="none" stroke="#B76E79" stroke-width="4" stroke-linejoin="round"/>
-    <path d="M34 -42l3.4 9 9 3.4-9 3.4L34 -18l-3.4-9-9-3.4 9-3.4L34 -42Z" fill="#D8A75B"/>
+    <circle cx="-16" cy="6" r="30" fill="none" stroke="#B76E79" stroke-width="4"/>
+    <circle cx="16" cy="6" r="30" fill="none" stroke="#B76E79" stroke-width="4"/>
+    <path d="M16 -44 25 -34 16 -24 7 -34Z" fill="#D8A75B"/>
   </g>
 
   <!-- Bismillah transliteration -->

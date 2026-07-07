@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { invitationData } from "../data/invitationData";
 import { AddToCalendar } from "../components/AddToCalendar";
 import { CoupleSection } from "../components/CoupleSection";
+import { DateCalendar } from "../components/DateCalendar";
 import { EnvelopeIntro } from "../components/EnvelopeIntro";
 import { EventDetails } from "../components/EventDetails";
 import { FloatingPetals } from "../components/FloatingPetals";
@@ -66,23 +67,27 @@ export function InvitationPage() {
       <FloatingPetals />
 
       <main className={`reveal-stage${revealed ? " is-revealed" : ""}`}>
+        {/* What & who */}
         <HeroSection data={data} />
         <InvitationMessage data={data} />
         <CoupleSection data={data} />
-        <EventDetails data={data} />
-        <ScheduleSection data={data} />
-        <VenueSection data={data} />
-        <RSVPSection data={data} />
 
-        {/* Save the date */}
+        {/* When — save the date */}
         <section className="section" aria-labelledby="save-date-heading">
           <div className="container">
             <SectionTitle kicker="Don’t Miss It" heading="Save the Date" headingId="save-date-heading" />
             <div className="save-date">
-              <AddToCalendar data={data} />
+              <DateCalendar data={data} />
+              <AddToCalendar data={data} compact />
             </div>
           </div>
         </section>
+
+        {/* Programme → where → good to know → respond */}
+        <ScheduleSection data={data} />
+        <VenueSection data={data} />
+        <EventDetails data={data} />
+        <RSVPSection data={data} />
       </main>
 
       <Footer data={data} />

@@ -21,23 +21,49 @@ const base = (props: IconProps) => ({
 
 /* ---------- Cultural / decorative ---------- */
 
-export function CrescentIcon(props: IconProps) {
+/** Two interlocking engagement bands crowned with a solitaire diamond — the
+ *  couple's emblem, used everywhere the earlier crescent-and-star motif sat.
+ *  Reads cleanly from the tiny footer badge up to the large ambient ornament. */
+export function RingsIcon(props: IconProps) {
   return (
-    <svg {...base(props)}>
-      <path d="M16.5 3.5A8 8 0 1 0 20 14a6.2 6.2 0 0 1-3.5-10.5Z" />
-      <path d="M18.8 4.2l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5.5-1.3Z" />
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      focusable="false"
+      {...props}
+    >
+      <circle cx="9.2" cy="14.6" r="5.3" />
+      <circle cx="14.8" cy="14.6" r="5.3" />
+      <path
+        d="M14.8 4.9 16.4 6.9 14.8 9.3 13.2 6.9 14.8 4.9Z"
+        fill="currentColor"
+        stroke="none"
+      />
     </svg>
   );
 }
 
-/** A refined, filled crescent moon with a five-point star nestled in its
- *  opening — the classic Islamic crescent-and-star. Reads cleanly even at the
- *  tiny size used on the envelope's wax seal. */
-export function CrescentStarIcon(props: IconProps) {
+/** A soft hand-drawn heart outline — used to circle the event day on the
+ *  "Save the Date" calendar. */
+export function HeartIcon(props: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden focusable="false" {...props}>
-      <path d="M20 14.5A8.5 8.5 0 1 1 10.2 4 6.6 6.6 0 0 0 20 14.5Z" />
-      <path d="M17.5 4.8 18.35 7.03 20.73 7.15 18.88 8.65 19.5 10.95 17.5 9.65 15.5 10.95 16.12 8.65 14.27 7.15 16.65 7.03Z" />
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.3}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      focusable="false"
+      {...props}
+    >
+      <path d="M12 20.3C12 20.3 3.6 15.1 3.6 9 3.6 6.3 5.7 4.4 8.1 4.4 9.8 4.4 11.3 5.4 12 6.9 12.7 5.4 14.2 4.4 15.9 4.4 18.3 4.4 20.4 6.3 20.4 9 20.4 15.1 12 20.3 12 20.3Z" />
     </svg>
   );
 }
@@ -95,10 +121,48 @@ export function PetalShape(props: IconProps) {
   );
 }
 
-export function StarIcon(props: IconProps) {
+/** A soft five-petal blossom with a gold heart — falls alongside the petals.
+ *  The petals take `currentColor` (so a white or pink flower is just a colour
+ *  swap) and carry a faint rose edge so white flowers still read on the light
+ *  background. */
+export function BlossomShape(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden focusable="false" {...props}>
-      <path d="M12 3l1.5 6.8L20 12l-6.5 2.2L12 21l-1.5-6.8L4 12l6.5-2.2L12 3Z" />
+      {[0, 72, 144, 216, 288].map((a) => (
+        <ellipse
+          key={a}
+          cx="12"
+          cy="6.6"
+          rx="2.7"
+          ry="4.4"
+          transform={`rotate(${a} 12 12)`}
+          stroke="rgba(183,110,121,0.28)"
+          strokeWidth="0.5"
+        />
+      ))}
+      <circle cx="12" cy="12" r="2.3" fill="var(--color-gold)" stroke="none" />
+    </svg>
+  );
+}
+
+/** A second, rounder blossom type (six soft round petals) so the falling white
+ *  and pink flowers come in more than one shape. Same colour rules as the
+ *  five-petal blossom: `currentColor` petals with a faint rose edge + gold heart. */
+export function BlossomShapeB(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden focusable="false" {...props}>
+      {[0, 60, 120, 180, 240, 300].map((a) => (
+        <circle
+          key={a}
+          cx="12"
+          cy="7"
+          r="3"
+          transform={`rotate(${a} 12 12)`}
+          stroke="rgba(183,110,121,0.28)"
+          strokeWidth="0.5"
+        />
+      ))}
+      <circle cx="12" cy="12" r="2" fill="var(--color-gold)" stroke="none" />
     </svg>
   );
 }

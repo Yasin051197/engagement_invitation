@@ -1,7 +1,8 @@
+import { QRCodeSVG } from 'qrcode.react'
 import type { InvitationData } from '../data/invitationData'
 import { SectionTitle } from './SectionTitle'
 import { Reveal } from './Reveal'
-import { LocationIcon, MapPinLarge, QrPlaceholder } from './decorations/Icons'
+import { LocationIcon, MapPinLarge } from './decorations/Icons'
 
 interface VenueSectionProps {
   data: InvitationData
@@ -52,7 +53,14 @@ export function VenueSection({ data }: VenueSectionProps) {
               Point your camera here to open the map quickly.
             </p>
             <div className="venue__qr">
-              <QrPlaceholder aria-hidden="true" />
+              <QRCodeSVG
+                value={data.mapLink}
+                level="Q"
+                marginSize={2}
+                bgColor="#ffffff"
+                fgColor="#2a1a1f"
+                title={`Scan to open ${data.venueName} in Google Maps`}
+              />
               <span className="venue__qr-label">Scan with camera</span>
             </div>
           </Reveal>

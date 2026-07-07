@@ -1,7 +1,7 @@
-import { JaaliPattern, CrescentIcon, StarIcon } from './decorations/Icons'
+import { JaaliPattern, RingsIcon } from './decorations/Icons'
 
-/** Deterministic star positions (no Math.random — keeps builds reproducible). */
-const STARS = [
+/** Deterministic sparkle positions (no Math.random — keeps builds reproducible). */
+const SPARKLES = [
   { left: '12%', top: '14%', size: 14, delay: 0 },
   { left: '82%', top: '10%', size: 10, delay: 1.2 },
   { left: '24%', top: '32%', size: 8, delay: 2.1 },
@@ -11,8 +11,9 @@ const STARS = [
 ]
 
 /**
- * Ambient background layer: a faint jaali (lattice) pattern, twinkling stars
- * and a softly glowing crescent moon. Fixed behind all content, fully decorative.
+ * Ambient background layer: a faint jaali (lattice) pattern, small twinkling
+ * ring sparkles and a softly glowing rings emblem. Fixed behind all content,
+ * fully decorative.
  */
 export function FloralDecorations() {
   return (
@@ -22,8 +23,8 @@ export function FloralDecorations() {
       </div>
 
       <div className="ambient__stars">
-        {STARS.map((s, i) => (
-          <StarIcon
+        {SPARKLES.map((s, i) => (
+          <RingsIcon
             key={i}
             className="star"
             style={{
@@ -37,7 +38,7 @@ export function FloralDecorations() {
         ))}
       </div>
 
-      <CrescentIcon className="ambient__crescent" />
+      <RingsIcon className="ambient__crescent" />
     </div>
   )
 }

@@ -341,9 +341,6 @@ body.is-locked {
   transform: translateY(-15%);
   backface-visibility: hidden;
 }
-.envelope__seal-icon {
-  width: 58%;
-}
 
 /* ============================ COUPLE REVEAL ============================ */
 /* Groom glides in from the left, bride from the right, meeting at the crescent
