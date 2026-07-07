@@ -15,7 +15,7 @@
  *    • RSVP ................... rsvpName, rsvpPhone, whatsappMessage
  *    • Messages / quotes ...... greeting, invitationMessage, heroQuote, footerQuote …
  *    • Extra poetic lines ..... duas[], shayariLines[], quotes[], invitationLines[],
- *                               footerLines[], hindiLines[]  (pick whichever you like)
+ *                               footerLines[], (pick whichever you like)
  * ============================================================================
  */
 
@@ -62,7 +62,6 @@ export interface InvitationData {
   quotes: string[];
   invitationLines: string[];
   footerLines: string[];
-  hindiLines: string[];
 }
 
 export const invitationData: InvitationData = {
@@ -76,7 +75,7 @@ export const invitationData: InvitationData = {
   // The bride's family are the hosts; the groom's side attends as honoured guests.
   hostedBy: "The Shaikh Family",
 
-  greeting: "Assalamu Alaikum Warahmatullahi Wabarakatuh",
+  greeting: "Assalamu Alaikum wa Rahmatullahi wa Barakatuh",
   bismillahArabic: "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
   bismillahEnglish: "Bismillahir Rahmanir Raheem",
 
@@ -159,14 +158,6 @@ export const invitationData: InvitationData = {
     "May Allah bless this occasion with happiness, peace, and barakah.",
     "We look forward to celebrating this blessed moment with you.",
     "With warm regards and heartfelt duas from both families.",
-  ],
-
-  // Beautiful Hindi / Urdu-in-Devanagari lines for an emotional, family touch.
-  hindiLines: [
-    "दो दिलों का यह बंधन, अल्लाह की रहमतों और बड़ों की दुआओं से सजे।",
-    "मोहब्बत, अदब और दुआओं के साथ एक नई शुरुआत।",
-    "आपकी मौजूदगी और दुआएँ इस लम्हे को और भी ख़ास बना देंगी।",
-    "दुआओं की छाँव में, दो परिवार एक नए रिश्ते की शुरुआत कर रहे हैं।",
   ],
 };
 

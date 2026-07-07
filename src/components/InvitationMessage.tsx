@@ -19,9 +19,6 @@ export function InvitationMessage({ data }: InvitationMessageProps) {
         <Reveal className="message__card">
           <p className="message__body">{data.invitationMessage}</p>
           <p className="message__quote">“{data.quotes[0]}”</p>
-          <p className="message__hindi" lang="hi">
-            {data.hindiLines[0]}
-          </p>
         </Reveal>
       </div>
     </section>

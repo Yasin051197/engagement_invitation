@@ -26,7 +26,7 @@ else. Quick map:
 | Venue & map link                   | `venueName`, `address`, `mapLink`                        |
 | RSVP contact                       | `rsvpName`, `rsvpPhone`, `whatsappMessage`               |
 | Messages, quotes, greeting         | `greeting`, `invitationMessage`, `heroQuote`, `footerQuote` |
-| Extra poetic lines (pick & swap)   | `duas[]`, `shayariLines[]`, `quotes[]`, `invitationLines[]`, `footerLines[]`, `hindiLines[]` |
+| Extra poetic lines (pick & swap)   | `duas[]`, `shayariLines[]`, `quotes[]`, `invitationLines[]`, `footerLines[]` |
 | Programme timeline                 | `schedule[]`                                             |
 
 > The page shows only **2–4** poetic lines at a time. The remaining lines in
