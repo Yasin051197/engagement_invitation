@@ -109,7 +109,7 @@ export const invitationData: InvitationData = {
   // The bride's family are the hosts; the groom's side attends as honoured guests.
   hostedBy: "The Shaikh Family",
 
-  greeting: "Assalamu Alaikum wa Rahmatullahi wa Barakatuh",
+  greeting: "Assalamu Alaikum wa Rahmatullahi wa Barakatuhu",
   bismillahArabic: "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
   bismillahEnglish: "Bismillahir Rahmanir Raheem",
 
@@ -138,7 +138,7 @@ export const invitationData: InvitationData = {
   // Bride-side RSVP contacts — guests may reach out to whichever they prefer.
   // Replace each placeholder number with that person's own mobile.
   rsvpContacts: [
-    { title: "Mr.", name: "Zafar Shaikh", phone: "+91 9921090110" },
+    { title: "Mr.", name: "Zafar Shaikh", phone: "+91 9049046146" },
     { title: "Mrs.", name: "Noorjahan Shaikh", phone: "+91 9921090110" },
   ],
   whatsappMessage: "Assalamu Alaikum, I will be attending the Engagement Ceremony. In Sha Allah.",
@@ -146,10 +146,10 @@ export const invitationData: InvitationData = {
   privacyNote: "Entry by invitation only.",
 
   schedule: [
-    { time: "07:00 PM", title: "Guest Arrival" },
-    { time: "07:30 PM", title: "Welcome Ceremony" },
-    { time: "08:00 PM", title: "Ring Ceremony" },
-    { time: "09:30 PM", title: "Dinner" },
+    { time: "06:30 PM", title: "Guest Arrival" },
+    { time: "07:00 PM", title: "Welcome Ceremony" },
+    { time: "07:30 PM", title: "Ring Ceremony" },
+    { time: "08:00 PM", title: "Dinner" },
   ],
 
   // --------------------------------------------------------------------------
