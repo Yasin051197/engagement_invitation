@@ -115,7 +115,8 @@ export const invitationData: InvitationData = {
 
   invitationMessage:
     "With the blessings of Allah Subhanahu Wa Ta’ala and the duas of our elders, we joyfully invite you to grace the engagement ceremony of our beloved daughter Fiza Shaikh with Yasim Jamadar.",
-  heroQuote: "Every celebration becomes more meaningful when shared with special people.",
+  heroQuote:
+    "Every celebration becomes more meaningful when shared with special people.",
   islamicQuote: "With Allah’s blessings, we begin a beautiful new chapter.",
   // Distinct from quotes[0] (shown in the "You Are Invited" section) so the
   // same sentence never appears twice.
@@ -128,7 +129,8 @@ export const invitationData: InvitationData = {
   isoEnd: "2026-07-24T22:30:00+05:30",
 
   venueName: "Pearl Banquet",
-  address: "Spine Rd, Sector Number 4, Moshi, Pimpri-Chinchwad, Maharashtra 412105",
+  address:
+    "Spine Rd, Sector Number 4, Moshi, Pimpri-Chinchwad, Maharashtra 412105",
   mapLink: "https://maps.app.goo.gl/zdtiTsPDaoTN6EmV8",
 
   dressCode: "Pastel / Traditional",
@@ -141,7 +143,8 @@ export const invitationData: InvitationData = {
     { title: "Mr.", name: "Zafar Shaikh", phone: "+91 9049046146" },
     { title: "Mrs.", name: "Noorjahan Shaikh", phone: "+91 9921090110" },
   ],
-  whatsappMessage: "Assalamu Alaikum, I will be attending the Engagement Ceremony. In Sha Allah.",
+  whatsappMessage:
+    "Assalamu Alaikum, I will be attending the Engagement Ceremony. In Sha Allah.",
 
   privacyNote: "Entry by invitation only.",
 
@@ -149,7 +152,7 @@ export const invitationData: InvitationData = {
     { time: "06:30 PM", title: "Guest Arrival" },
     { time: "07:00 PM", title: "Welcome Ceremony" },
     { time: "07:30 PM", title: "Ring Ceremony" },
-    { time: "08:00 PM", title: "Dinner" },
+    { time: "08:00 PM onwards", title: "Dinner" },
   ],
 
   // --------------------------------------------------------------------------
