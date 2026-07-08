@@ -13,7 +13,7 @@
  *                               groomParents, brideParents, hostedBy
  *    • Date / time ............ date, time  (also isoStart / isoEnd for "Add to Calendar")
  *    • Venue / map ............ venueName, address, mapLink
- *    • RSVP ................... rsvpName, rsvpPhone, whatsappMessage
+ *    • RSVP ................... rsvpContacts[], whatsappMessage
  *    • Messages / quotes ...... greeting, invitationMessage, heroQuote, footerQuote …
  *    • Extra poetic lines ..... duas[], shayariLines[], quotes[], invitationLines[],
  *                               footerLines[], (pick whichever you like)
@@ -23,6 +23,17 @@
 export interface ScheduleItem {
   time: string;
   title: string;
+}
+
+/**
+ * A person a guest can contact to RSVP. List more than one and the guest may
+ * reach out to whichever they prefer — the RSVP section renders a card each.
+ */
+export interface RsvpContact {
+  /** Optional courtesy title shown before the name (e.g. "Mr.", "Mrs."). */
+  title?: string;
+  name: string;
+  phone: string;
 }
 
 export interface InvitationData {
@@ -65,8 +76,11 @@ export interface InvitationData {
   dressCode: string;
   dinnerText: string;
   specialInstruction: string;
-  rsvpName: string;
-  rsvpPhone: string;
+  /**
+   * Bride-side RSVP contacts. Guests may reach out to ANY of them.
+   * Add or remove entries freely — the RSVP section renders one card per contact.
+   */
+  rsvpContacts: RsvpContact[];
   whatsappMessage: string;
   privacyNote: string;
   schedule: ScheduleItem[];
@@ -121,9 +135,12 @@ export const invitationData: InvitationData = {
   dinnerText: "Dinner will be served after the ceremony.",
   specialInstruction: "Kindly arrive 10 minutes before the ceremony.",
 
-  // Bride-side invitation: single point of contact is Zafar Shaikh.
-  rsvpName: "Zafar Shaikh",
-  rsvpPhone: "+91 9921090110",
+  // Bride-side RSVP contacts — guests may reach out to whichever they prefer.
+  // Replace each placeholder number with that person's own mobile.
+  rsvpContacts: [
+    { title: "Mr.", name: "Zafar Shaikh", phone: "+91 9921090110" },
+    { title: "Mrs.", name: "Noorjahan Shaikh", phone: "+91 9921090110" },
+  ],
   whatsappMessage: "Assalamu Alaikum, I will be attending the Engagement Ceremony. In Sha Allah.",
 
   privacyNote: "Entry by invitation only.",

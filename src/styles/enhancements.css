@@ -217,8 +217,24 @@ body.is-locked {
   color: var(--color-text-muted);
   transition: opacity 0.4s ease;
 }
+/* Small "tap the heart" cue under the envelope; softly pulses to invite a tap. */
+.intro__tap {
+  margin-top: clamp(0.9rem, 4vw, 1.3rem);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-rosegold);
+  animation: tapHint 2.4s ease-in-out infinite;
+  transition: opacity 0.4s ease;
+}
+@keyframes tapHint {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.95; }
+}
 .intro__btn {
-  margin-top: clamp(1.3rem, 5vw, 1.8rem);
+  margin-top: clamp(0.9rem, 3.5vw, 1.2rem);
   animation: softPulse 2.6s ease-in-out infinite;
   transition: opacity 0.4s ease;
 }
@@ -226,120 +242,457 @@ body.is-locked {
 .intro.is-opening .intro__crescent,
 .intro.is-opening .intro__eyebrow,
 .intro.is-opening .intro__hint,
+.intro.is-opening .intro__tap,
 .intro.is-opening .intro__btn {
   opacity: 0;
   pointer-events: none;
 }
+/* The tap cue pulses via an infinite animation, which would otherwise override
+   the opacity:0 above — stop it on open so the hint actually fades away. */
+.intro.is-opening .intro__tap {
+  animation: none;
+}
 
-/* ---------- The envelope ---------- */
-.envelope {
-  position: relative;
-  width: clamp(258px, 78vw, 330px);
-  aspect-ratio: 8 / 5;
-  margin: clamp(1.1rem, 5vw, 1.7rem) auto 0;
-  perspective: 1400px;
-  background: linear-gradient(160deg, var(--color-offwhite), var(--color-cream));
-  border: 1px solid var(--gold-40);
-  border-radius: 12px;
-  box-shadow: var(--shadow-soft);
-}
-/* The letter: hidden in the pocket, then lifts up + fades in on open. */
-.envelope__letter {
+/* Baby-pink petal flurry that floats up out of the envelope as it opens. */
+.intro__flurry {
   position: absolute;
-  left: 7%;
-  right: 7%;
-  bottom: 7%;
+  inset: 0;
   z-index: 2;
-  padding: clamp(0.85rem, 4vw, 1.25rem) 0.7rem;
-  text-align: center;
-  background: linear-gradient(180deg, #fffefb 0%, var(--color-blush) 100%);
-  border: 1px solid var(--rosegold-18);
-  border-radius: 8px;
-  box-shadow: 0 12px 26px -16px rgba(74, 47, 53, 0.55);
+  pointer-events: none;
   opacity: 0;
-  transform: translateY(10%) scale(0.95);
-  transition:
-    transform 0.95s var(--ease-soft) 0.55s,
-    opacity 0.6s ease 0.55s;
 }
-.intro.is-opening .envelope__letter {
+.intro.is-opening .intro__flurry {
   opacity: 1;
-  transform: translateY(-82%) scale(1);
 }
-.envelope__letter-eyebrow {
+.intro__petal {
+  position: absolute;
+  top: 58%;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.intro.is-opening .intro__petal {
+  animation: introPetal var(--pdur) ease-out var(--pd) forwards;
+}
+@keyframes introPetal {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.55); }
+  25% { opacity: 0.95; }
+  100% {
+    opacity: 0;
+    transform: translate(var(--pdrift), -230px) rotate(var(--prot)) scale(1);
+  }
+}
+
+/* ============================================================================
+   OPENING E-CARD COVER
+   A portrait gatefold cover — pink ribbon band, floral corner posies and a
+   glowing butterfly on the ribbon. On tap the butterfly flaps + sparkles and
+   the two doors swing open to reveal the inner card, then the cover fades.
+   (--heart-x/-y mark the butterfly's centre, shared by the glow/ripple/sparkles.)
+   ============================================================================ */
+.ecard {
+  --heart-x: 50%;
+  --heart-y: 53.6%;
+  position: relative;
+  width: clamp(232px, 72vw, 300px);
+  aspect-ratio: 3 / 4;
+  margin: clamp(0.5rem, 3vw, 1.1rem) auto 0;
+  perspective: 1600px;
+}
+
+/* ---- Soft arch halo that blooms behind the card as it opens ---- */
+.ecard__halo {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 132%;
+  aspect-ratio: 1;
+  z-index: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.55);
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(253, 236, 239, 0.95) 0%,
+    rgba(247, 200, 208, 0.45) 42%,
+    transparent 68%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.9s ease 0.15s,
+    transform 1.1s var(--ease-soft) 0.15s;
+}
+.intro.is-opening .ecard__halo {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* ---- Inner card revealed behind the cover; rises + scales on open ---- */
+.ecard__inner {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--gold-40);
+  background:
+    radial-gradient(130% 90% at 50% 0%, #fffefb 0%, var(--color-blush) 62%),
+    var(--color-offwhite);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  transform: translateY(7%) scale(0.86);
+  transition:
+    transform 0.95s var(--ease-soft) 0.28s,
+    opacity 0.7s ease 0.32s;
+}
+.intro.is-opening .ecard__inner {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.ecard__inner-frame {
+  position: absolute;
+  inset: 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 12px;
+  text-align: center;
+  border: 1px solid var(--gold-40);
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 3px rgba(255, 253, 248, 0.6);
+}
+.ecard__inner-kicker {
   font-family: var(--font-body);
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-weight: 500;
-  letter-spacing: 0.26em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--color-rosegold);
 }
-.envelope__names {
-  margin-top: 0.35rem;
+.ecard__names {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(1.5rem, 7vw, 2.1rem);
+  font-size: clamp(1.4rem, 8vw, 1.9rem);
   line-height: 1.12;
   color: var(--color-text-deep);
 }
-.envelope__names span {
+.ecard__names span {
   font-family: var(--font-serif);
   font-style: italic;
   color: var(--color-gold);
 }
-.envelope__flourish {
-  width: clamp(96px, 36vw, 140px);
-  margin: 0.5rem auto;
+.ecard__flourish {
+  width: 62%;
+  margin: 0.15rem auto;
   color: var(--color-gold);
 }
-.envelope__date {
+.ecard__date {
   font-family: var(--font-serif);
-  font-size: clamp(0.8rem, 2.8vw, 0.95rem);
+  font-size: clamp(0.78rem, 3vw, 0.92rem);
   color: var(--color-text-muted);
 }
-/* Pocket front — hides the lower part of the letter (sits above it). */
-.envelope__front {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  border-radius: 12px;
-  background: linear-gradient(160deg, var(--color-cream) 0%, #ecd4ad 100%);
-  clip-path: polygon(0 30%, 50% 66%, 100% 30%, 100% 100%, 0 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
-}
-/* Triangular lid that lifts open. */
-.envelope__flap {
+
+/* ---- Gatefold doors (left / right halves) that swing open in 3D ---- */
+.ecard__door {
   position: absolute;
   top: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 3;
+  overflow: hidden; /* keep the floral posies within the door */
+  background: linear-gradient(155deg, #fffdf9 0%, var(--color-blush) 100%);
+  backface-visibility: hidden;
+  transition:
+    transform 1.05s var(--ease-soft) 0.15s,
+    opacity 0.5s ease 0.65s;
+}
+.ecard__door--left {
+  left: 0;
+  transform-origin: left center;
+  border-radius: 16px 0 0 16px;
+  box-shadow: inset -1px 0 2px rgba(183, 110, 121, 0.12);
+}
+.ecard__door--right {
+  right: 0;
+  transform-origin: right center;
+  border-radius: 0 16px 16px 0;
+  box-shadow: inset 1px 0 2px rgba(183, 110, 121, 0.12);
+}
+.intro.is-opening .ecard__door--left {
+  transform: rotateY(-135deg);
+  opacity: 0;
+}
+.intro.is-opening .ecard__door--right {
+  transform: rotateY(135deg);
+  opacity: 0;
+}
+/* faint damask emboss on the cover face */
+.ecard__emboss {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image:
+    radial-gradient(circle at 26% 22%, rgba(183, 110, 121, 0.05) 0 2px, transparent 3px),
+    radial-gradient(circle at 68% 54%, rgba(216, 167, 91, 0.05) 0 2px, transparent 3px),
+    radial-gradient(circle at 42% 82%, rgba(183, 110, 121, 0.04) 0 2px, transparent 3px);
+  background-size: 44px 44px;
+  opacity: 0.7;
+  pointer-events: none;
+}
+/* the pink ribbon band — a single band across the cover; fades as it opens */
+.ecard__ribbon {
+  position: absolute;
   left: 0;
   right: 0;
-  height: 66%;
-  z-index: 4;
-  display: grid;
-  place-items: center;
-  transform-origin: top center;
-  transform: rotateX(0deg);
-  transition: transform 0.75s var(--ease-soft);
-  background: linear-gradient(160deg, var(--color-blush) 0%, var(--color-babypink) 100%);
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  backface-visibility: hidden;
-  box-shadow: 0 4px 10px -6px rgba(74, 47, 53, 0.4);
+  top: 45%;
+  height: 15%;
+  z-index: 5;
+  background: linear-gradient(180deg, #f9cdd6 0%, var(--color-babypink) 45%, #eaa3b1 100%);
+  box-shadow:
+    0 7px 14px -8px rgba(183, 110, 121, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(183, 110, 121, 0.25);
+  transition: opacity 0.4s ease;
 }
-.intro.is-opening .envelope__flap {
-  transform: rotateX(-185deg);
-  z-index: 1; /* drop behind the rising letter */
+.intro.is-opening .ecard__ribbon {
+  opacity: 0;
 }
-.envelope__seal {
-  width: clamp(32px, 10vw, 44px);
-  height: clamp(32px, 10vw, 44px);
-  display: grid;
-  place-items: center;
+
+/* ---- Soft glow behind the butterfly ---- */
+.ecard__glow {
+  position: absolute;
+  left: var(--heart-x);
+  top: var(--heart-y);
+  width: clamp(150px, 45vw, 210px);
+  aspect-ratio: 1;
+  z-index: 6;
   border-radius: 50%;
-  color: var(--color-offwhite);
-  background: radial-gradient(circle at 35% 30%, var(--color-rosegold-soft), var(--color-rosegold));
-  box-shadow: 0 4px 10px -4px rgba(74, 47, 53, 0.6);
-  transform: translateY(-15%);
-  backface-visibility: hidden;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(216, 167, 91, 0.5) 0%,
+    rgba(253, 236, 239, 0.35) 42%,
+    transparent 70%
+  );
+  pointer-events: none;
+  animation: sealGlow 3.2s ease-in-out infinite;
+}
+.intro.is-opening .ecard__glow {
+  animation: sealFlash 0.9s ease-out forwards;
+}
+@keyframes sealGlow {
+  0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.9); }
+  50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.08); }
+}
+@keyframes sealFlash {
+  0% { opacity: 0.85; transform: translate(-50%, -50%) scale(1); }
+  30% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(2.4); }
+}
+
+/* ---- Ripple rings that radiate from the tap point ---- */
+.ecard__ripple {
+  position: absolute;
+  left: var(--heart-x);
+  top: var(--heart-y);
+  width: clamp(46px, 14vw, 56px);
+  aspect-ratio: 1;
+  z-index: 7;
+  border-radius: 50%;
+  border: 2px solid var(--rosegold-30);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2);
+  pointer-events: none;
+}
+.intro.is-opening .ecard__ripple {
+  animation: sealRipple 1s ease-out forwards;
+}
+.intro.is-opening .ecard__ripple--2 {
+  border-color: var(--gold-40);
+  animation-delay: 0.18s;
+}
+@keyframes sealRipple {
+  0% { opacity: 0.9; transform: translate(-50%, -50%) scale(0.2); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(4.6); }
+}
+
+/* ---- Golden sparkles around the heart ---- */
+.ecard__sparkles {
+  position: absolute;
+  left: var(--heart-x);
+  top: var(--heart-y);
+  width: 0;
+  height: 0;
+  z-index: 8;
+  pointer-events: none;
+}
+.sparkle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--sz);
+  height: var(--sz);
+  margin: calc(var(--sz) / -2) 0 0 calc(var(--sz) / -2);
+  background: radial-gradient(circle, #fffdf8 0%, var(--color-gold) 55%, transparent 72%);
+  clip-path: polygon(50% 0, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0 50%, 42% 42%);
+  opacity: 0;
+  transform: translate(var(--ix), var(--iy)) scale(0.4);
+  animation: sparkleIdle var(--dur) ease-in-out var(--sd) infinite;
+}
+@keyframes sparkleIdle {
+  0%, 100% { opacity: 0; transform: translate(var(--ix), var(--iy)) scale(0.35) rotate(0deg); }
+  50% { opacity: 0.85; transform: translate(var(--ix), var(--iy)) scale(1) rotate(90deg); }
+}
+.intro.is-opening .sparkle {
+  animation: sparkleBurst 1.1s ease-out var(--sd) forwards;
+}
+@keyframes sparkleBurst {
+  0% { opacity: 0; transform: translate(var(--ix), var(--iy)) scale(0.3) rotate(0deg); }
+  25% { opacity: 1; transform: translate(var(--ix), var(--iy)) scale(1.15) rotate(45deg); }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--ix) + var(--bx)), calc(var(--iy) + var(--by))) scale(1.35) rotate(150deg);
+  }
+}
+
+/* ---- The glowing butterfly on the ribbon (the tap target) ---- */
+.ecard__butterfly {
+  position: absolute;
+  left: var(--heart-x);
+  top: var(--heart-y);
+  z-index: 10;
+  width: clamp(128px, 38vw, 168px);
+  padding: 6px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  animation: butterflyGlow 2.8s ease-in-out infinite;
+}
+.ecard__butterfly:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+}
+.ecard__butterfly:active {
+  transform: translate(-50%, -50%) scale(0.94);
+}
+/* Soft, round focus ring instead of the default boxy outline. */
+.ecard__butterfly:focus-visible {
+  outline: none;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 3px var(--rosegold-30),
+    0 0 16px rgba(255, 190, 205, 0.75);
+}
+.ecard__butterfly-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  transform-origin: center;
+  animation: butterflyBob 3.6s ease-in-out infinite;
+}
+.butterfly__wing-shape {
+  fill: url(#bflyWing);
+  stroke: var(--color-gold);
+  stroke-width: 1.3;
+}
+.butterfly__spot {
+  fill: #fffaf3;
+  opacity: 0.7;
+}
+.butterfly__body {
+  fill: #b98a3e;
+}
+.butterfly__antenna {
+  fill: none;
+  stroke: #b98a3e;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+/* Wing flap — each wing folds toward the body. */
+.butterfly__wing {
+  transform-box: fill-box;
+  animation: butterflyFlap 2.6s ease-in-out infinite;
+}
+.butterfly__wing--left {
+  transform-origin: right center;
+}
+.butterfly__wing--right {
+  transform-origin: left center;
+}
+@keyframes butterflyFlap {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(0.74); }
+}
+@keyframes butterflyBob {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-3px) rotate(2deg); }
+}
+@keyframes butterflyGlow {
+  0%, 100% {
+    filter: drop-shadow(0 2px 4px rgba(183, 110, 121, 0.35)) drop-shadow(0 0 5px rgba(255, 200, 210, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 3px 6px rgba(183, 110, 121, 0.4)) drop-shadow(0 0 13px rgba(255, 188, 204, 0.8));
+  }
+}
+/* On open: wings flap fast, the butterfly flutters up and fades away. */
+.intro.is-opening .ecard__butterfly {
+  pointer-events: none;
+  animation: butterflyFlyUp 1.1s var(--ease-soft) forwards;
+}
+.intro.is-opening .butterfly__wing {
+  animation-duration: 0.32s;
+}
+@keyframes butterflyFlyUp {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    filter: drop-shadow(0 0 14px rgba(255, 190, 205, 0.9));
+  }
+  25% {
+    transform: translate(-50%, -80%) scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-52%, -230%) rotate(-12deg) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* ---- Floral corner posies (built from the site's blossom shapes) ---- */
+.floral-cluster {
+  position: absolute;
+  width: 92px;
+  height: 78px;
+  pointer-events: none;
+  /* Mirrored from the centre so the dense corner of the posy lands on the
+     anchored card corner and fans inward (see per-corner flips below). */
+  transform: scale(var(--fc-scale, 1));
+  filter: drop-shadow(0 3px 5px rgba(74, 47, 53, 0.12));
+}
+.floral-cluster__bloom {
+  position: absolute;
+}
+.floral-cluster--tl {
+  top: -8px;
+  left: -8px;
+}
+.floral-cluster--tr {
+  top: -8px;
+  right: -8px;
+  transform: scale(var(--fc-scale, 1)) scaleX(-1);
+}
+.floral-cluster--bl {
+  bottom: -8px;
+  left: -8px;
+  transform: scale(var(--fc-scale, 1)) scaleY(-1);
+}
+.floral-cluster--br {
+  bottom: -8px;
+  right: -8px;
+  transform: scale(var(--fc-scale, 1)) scale(-1);
 }
 
 /* ============================ COUPLE REVEAL ============================ */
@@ -475,8 +828,19 @@ body.is-locked {
     transform: none;
   }
   .intro__crescent,
-  .intro__btn {
+  .intro__btn,
+  .intro__tap,
+  .ecard__butterfly,
+  .ecard__butterfly-svg,
+  .butterfly__wing,
+  .ecard__glow,
+  .sparkle {
     animation: none;
+  }
+  /* Keep the butterfly readable and the sparkles out of the way when off. */
+  .sparkle,
+  .ecard__glow {
+    opacity: 0;
   }
   /* Couple entrance: show instantly, no slide/pop/halo. */
   .reveal.couple__person--groom,

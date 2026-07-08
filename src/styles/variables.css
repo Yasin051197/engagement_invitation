@@ -29,7 +29,7 @@
 
   /* ---- Spacing & layout ---- */
   --content-max: 760px;
-  --section-pad-block: clamp(3rem, 8vw, 5.5rem);
+  --section-pad-block: clamp(1.5rem, 4vw, 2.5rem);
   --gutter: clamp(1.1rem, 5vw, 2rem);
   --radius-lg: 26px;
   --radius-md: 18px;

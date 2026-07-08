@@ -13,7 +13,8 @@ interface FloatingRsvpButtonProps {
  */
 export function FloatingRsvpButton({ data }: FloatingRsvpButtonProps) {
   const [visible, setVisible] = useState(false)
-  const link = buildWhatsAppRsvpLink(data)
+  // Floating button reaches the first listed contact; the RSVP section lists all.
+  const link = buildWhatsAppRsvpLink(data, data.rsvpContacts[0].phone)
 
   useEffect(() => {
     let ticking = false

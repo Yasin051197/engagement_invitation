@@ -16,9 +16,11 @@ export function HeroSection({ data }: HeroProps) {
   return (
     <header className="hero" aria-labelledby="couple-heading">
       <div className="hero__card">
-        <div className="hero__topband" aria-hidden="true" />
-
-        <BismillahHeader arabic={data.bismillahArabic} english={data.bismillahEnglish} />
+        {/* Ornamental arch band with the Bismillah nested in its open panel. */}
+        <div className="hero__arch">
+          <div className="hero__topband" aria-hidden="true" />
+          <BismillahHeader arabic={data.bismillahArabic} english={data.bismillahEnglish} />
+        </div>
 
         <p className="hero__dua">“{data.duas[0]}”</p>
 
@@ -32,11 +34,7 @@ export function HeroSection({ data }: HeroProps) {
           {data.brideName} &amp; {data.groomName}
         </h1>
         <figure className="hero__portrait">
-          <img
-            className="hero__portrait-img"
-            src={data.coupleImage}
-            alt={`${data.brideName} and ${data.groomName}`}
-          />
+          <img className="hero__portrait-img" src={data.coupleImage} alt={`${data.brideName} and ${data.groomName}`} />
         </figure>
 
         <p className="hero__parents">Hosted with love by {data.hostedBy}</p>

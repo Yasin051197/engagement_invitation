@@ -364,7 +364,10 @@ a {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding-block: clamp(2.6rem, 9vw, 4.5rem);
+  /* Top gives the page a little breathing room; bottom matches the shared
+     section rhythm so the hero→section gap equals every other section gap. */
+  padding-top: clamp(1.8rem, 6vw, 3rem);
+  padding-bottom: var(--section-pad-block);
   padding-inline: var(--gutter);
   z-index: 1;
 }
@@ -388,33 +391,50 @@ a {
   border-radius: calc(var(--radius-lg) - 8px);
   pointer-events: none;
 }
-/* Ornamental image band across the top of the hero card (top border only).
-   Locked to the art's 1456×1080 proportions so the full arch + lanterns always
-   show and the crop lands in the empty base — never through the lanterns. */
-.hero__topband {
+/* Ornamental arch band: the top-border art with the Bismillah nested inside
+   its open watercolour panel. Full-bleed to the card edges (cancels the card
+   padding) and positioned so the Bismillah can be centred as a fraction of the
+   band height — keeping it perfectly placed on every screen size. */
+.hero__arch {
   position: relative;
   z-index: 1;
-  aspect-ratio: 1456 / 952;
   /* Full-bleed to the card edges by cancelling the card's padding. */
   margin-top: calc(-1 * var(--card-pad));
   margin-inline: calc(-1 * var(--card-pad));
-  margin-bottom: clamp(0.2rem, 1.5vw, 0.6rem);
+  margin-bottom: clamp(0.6rem, 3vw, 0.2rem);
+}
+/* Locked to the art's 1456×1080 proportions so the full arch + lanterns always
+   show and the crop lands in the empty base — never through the lanterns. */
+.hero__topband {
+  aspect-ratio: 1156 / 952;
   background: url("/top-border.png") top center / 100% auto no-repeat;
   /* Fade only the empty base (below the lanterns) so it melts into the card. */
-  -webkit-mask-image: linear-gradient(to bottom, #000 90%, transparent);
-  mask-image: linear-gradient(to bottom, #000 90%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 86%, transparent);
+  mask-image: linear-gradient(to bottom, #000 86%, transparent);
 }
-/* Bismillah pulled up into the arch opening of the top border image. The
-   z-index lifts the text above the image band so it stays visible. */
+/* Bismillah centred in the arch's open panel. Positioned as a percentage of the
+   band height (not a fixed pixel offset) so it lands in the same spot whether
+   the band is 190px tall on a phone or 405px on a desktop. */
 .bismillah {
-  position: relative;
-  z-index: 2;
-  margin: -150px auto clamp(1.1rem, 4vw, 1.6rem);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 58%;
+  margin-inline: auto;
+  width: min(94%, 34ch);
   text-align: center;
+  z-index: 2;
+  /* Entrance uses transform, so centring must NOT rely on transform. */
   animation: fadeUp 1.4s var(--ease-soft) both;
 }
 .hero__dua {
-  margin: 0 auto;
+  /* Pull the dua up into the faded, empty base of the arch band so it sits
+     close under "Bismillahir Rahmanir Raheem" instead of leaving a big gap.
+     The negative margin scales with the band (which scales with card width);
+     z-index lifts it above the arch so the faded band never dims the text. */
+  position: relative;
+  z-index: 3;
+  margin: clamp(-7rem, -12vw, -0.5rem) auto 0;
   max-width: 32ch;
   font-family: var(--font-serif);
   font-style: italic;
@@ -493,9 +513,11 @@ a {
   animation: fadeUp 1.6s var(--ease-soft) 0.5s both;
 }
 
-/* Couple illustration — matted frame, shown in place of the full names */
+/* Couple illustration — matted frame. Fills the card width on phones (where
+   it's the emotional centrepiece) and settles to a tasteful max on larger
+   screens. */
 .hero__portrait {
-  width: clamp(210px, 62vw, 300px);
+  width: min(100%, 340px);
   margin: clamp(1.2rem, 4vw, 1.8rem) auto 0;
   padding: 6px;
   border-radius: var(--radius-lg);
@@ -724,6 +746,7 @@ a {
   max-width: 520px;
   margin-inline: auto;
   padding-left: clamp(2rem, 8vw, 2.6rem);
+  list-style: none;
 }
 .timeline::before {
   content: "";
@@ -851,6 +874,40 @@ a {
   font-weight: 600;
 }
 
+/* Multiple RSVP contacts — one card each; guests may reach whichever they prefer. */
+.rsvp-contacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.1rem;
+  margin-top: 0.4rem;
+}
+.rsvp-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: var(--card-pad-compact);
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--rosegold-18);
+  border-radius: var(--radius-md);
+}
+.rsvp-contact__name {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.02rem, 3vw, 1.15rem);
+  font-weight: 600;
+  color: var(--color-rosegold);
+}
+.rsvp-contact__phone {
+  margin: 0 0 0.9rem;
+  font-size: clamp(0.88rem, 2.8vw, 0.98rem);
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+.rsvp-contact__phone:hover {
+  text-decoration: underline;
+}
+
 /* Single centered "Save the Date" card. */
 .save-date {
   max-width: 460px;
@@ -971,7 +1028,7 @@ a {
 .footer {
   position: relative;
   text-align: center;
-  padding: clamp(3rem, 9vw, 4.5rem) var(--gutter) clamp(2rem, 6vw, 3rem);
+  padding: var(--section-pad-block) var(--gutter) clamp(2rem, 6vw, 3rem);
   z-index: 1;
 }
 .footer__dua {
@@ -1025,6 +1082,16 @@ a {
 @media (min-width: 1024px) {
   :root {
     --content-max: 860px;
+  }
+}
+
+/* Phones: trim the outer gutter and card padding so cards and the couple
+   portrait use more of the (limited) screen width — bigger, less boxed-in. */
+@media (max-width: 480px) {
+  :root {
+    --gutter: 0.9rem;
+    --card-pad: 1.3rem;
+    --card-pad-compact: 1.1rem;
   }
 }
 

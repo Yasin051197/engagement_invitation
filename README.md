@@ -24,7 +24,7 @@ else. Quick map:
 | Date & time (text shown)          | `date`, `time`                                                               |
 | Date & time (for Add-to-Calendar) | `isoStart`, `isoEnd`                                                         |
 | Venue & map link                  | `venueName`, `address`, `mapLink`                                            |
-| RSVP contact                      | `rsvpName`, `rsvpPhone`, `whatsappMessage`                                   |
+| RSVP contacts                     | `rsvpContacts[]` (name + phone each), `whatsappMessage`                      |
 | Messages, quotes, greeting        | `greeting`, `invitationMessage`, `heroQuote`, `footerQuote`                  |
 | Extra poetic lines (pick & swap)  | `duas[]`, `shayariLines[]`, `quotes[]`, `invitationLines[]`, `footerLines[]` |
 | Programme timeline                | `schedule[]`                                                                 |
