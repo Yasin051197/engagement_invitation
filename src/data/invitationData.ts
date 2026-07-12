@@ -123,8 +123,8 @@ export const invitationData: InvitationData = {
   footerQuote: "Your blessings and duas mean the world to us.",
 
   date: "Friday, 24 July 2026",
-  time: "7:00 PM onwards",
-  // 24 July 2026, 7:00 PM – 10:30 PM IST (used only for the calendar link).
+  time: "6:30 PM onwards",
+  // 24 July 2026, 6:30 PM – 10:30 PM IST (used only for the calendar link).
   isoStart: "2026-07-24T19:00:00+05:30",
   isoEnd: "2026-07-24T22:30:00+05:30",
 
