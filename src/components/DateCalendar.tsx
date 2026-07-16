@@ -75,7 +75,7 @@ export function DateCalendar({ data }: DateCalendarProps) {
        Inshallah On {eventWeekday}, {MONTHS[monthIndex]} {day}
         <sup>{ordinal(day)}</sup>, {year}
       </p>
-      <p className="datecal__time">at {data.time}</p>
+      <p className="datecal__time">from {data.time}</p>
     </Reveal>
   )
 }
